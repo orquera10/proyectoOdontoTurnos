@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Comprobante #{{ turno.codigo }} - {{ config.odontologa_titular }}{% endblock %}
+
+{% block content %}
+<header class="bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] py-4 px-gutter no-print">
+  <div class="max-w-3xl mx-auto flex items-center justify-between">
+    <a href="{% url 'landing_cliente' %}" class="inline-flex items-center gap-space-xs font-label-lg text-label-lg text-primary hover:underline">
+      <span class="material-symbols-outlined text-base">arrow_back</span>
+      Volver al Portal de Pacientes
+    </a>
+    <span class="font-label-sm text-label-sm text-outline">{{ config.odontologa_titular }} · {{ config.direccion }}</span>
+  </div>
+</header>
+
+<main class="flex-1 py-space-xl px-gutter">
+  <div class="max-w-2xl mx-auto flex flex-col gap-space-lg">
+    <!-- Banner de Éxito estilo Paso 4 -->
+    {% if turno.estado != 'CANCELADO' %}
+    <div class="p-space-lg rounded-xl bg-primary text-on-primary flex flex-col gap-space-sm items-center text-center shadow-md">
+      <span class="material-symbols-outlined text-5xl">check_circle</span>
+      <h1 class="font-headline-lg text-headline-lg">¡Turno Agendado Exitosamente!</h1>
+      <p class="font-body-md text-body-md text-on-primary-container max-w-md">
+        Tu cita con la <strong>{{ config.odontologa_titular }}</strong> fue asentada en la base de datos del consultorio ({{ config.direccion }}).
+      </p>
+      <div class="mt-space-xs inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface text-on-surface font-label-md text-label-md shadow-xs">
+        <span class="font-headline-sm text-primary">CÓDIGO: {{ turno.codigo }}</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="p-space-lg rounded-xl bg-error-container text-on-error-container flex flex-col gap-space-xs items-center text-center">
+      <span class="material-symbols-outlined text-4xl">cancel</span>
+      <h1 class="font-headline-md text-headline-md">Turno Cancelado ({{ turno.codigo }})</h1>
+      <p class="font-body-sm text-body-sm">Este horario ha sido liberado en la agenda del consultorio.</p>
+    </div>
+    {% endif %}
+
+    <!-- Detalle del Comprobante -->
+    <div class="bg-surface-container-lowest p-space-lg sm:p-space-xl rounded-xl shadow-sm flex flex-col gap-space-md">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-space-md bg-surface-container-low p-space-md rounded-xl">
+        <div class="flex items-center gap-space-md">
+          <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-2xl">dentistry</span>
+          </div>
+          <div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Tratamiento Seleccionado</span>
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">{{ turno.tratamiento.nombre }}</h2>
+          </div>
+        </div>
+        <div class="mt-space-sm sm:mt-0">
+          <span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+            {{ turno.get_estado_display }}
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md text-body-sm">
+        <div class="flex items-start gap-space-sm">
+          <span class="material-symbols-outlined text-primary text-xl">calendar_today</span>
+          <div>
+            <span class="block font-label-sm text-label-sm text-on-surface-variant">Fecha y Hora</span>
+            <strong class="font-headline-sm text-sm text-on-surface">{{ turno.fecha|date:"d/m/Y" }} — {{ turno.hora|time:"H:i" }} hs</strong>
+          </div>
+        </div>
+        <div class="flex items-start gap-space-sm">
+          <span class="material-symbols-outlined text-primary text-xl">pin_drop</span>
+          <div>
+            <span class="block font-label-sm text-label-sm text-on-surface-variant">Ubicación del Consultorio</span>
+            <strong class="font-headline-sm text-sm text-on-surface">{{ config.direccion }} ({{ config.localidad }})</strong>
+          </div>
+        </div>
+        <div class="flex items-start gap-space-sm">
+          <span class="material-symbols-outlined text-primary text-xl">person</span>
+          <div>
+            <span class="block font-label-sm text-label-sm text-on-surface-variant">Paciente</span>
+            <strong class="font-headline-sm text-sm text-on-surface">{{ turno.paciente.nombre_completo }} (DNI {{ turno.paciente.dni }})</strong>
+          </div>
+        </div>
+        <div class="flex items-start gap-space-sm">
+          <span class="material-symbols-outlined text-primary text-xl">health_and_safety</span>
+          <div>
+            <span class="block font-label-sm text-label-sm text-on-surface-variant">Cobertura médica declarada</span>
+            <strong class="font-headline-sm text-sm text-on-surface">{{ turno.paciente.obra_social }} · Tel: {{ turno.paciente.telefono }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-space-md border-t border-surface-container-high flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-sm no-print">
+        {% if turno.estado != 'CANCELADO' %}
+        <a href="{{ url_whatsapp_clinica }}" target="_blank" rel="noopener" class="px-space-lg h-12 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 shadow-sm">
+          <span class="material-symbols-outlined text-lg">chat</span>
+          Enviar Confirmación por WhatsApp
+        </a>
+        {% endif %}
+
+        <div class="flex items-center gap-space-sm">
+          <button type="button" onclick="window.print()" class="px-space-md h-12 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-base">print</span>
+            Imprimir PDF
+          </button>
+          {% if turno.estado != 'CANCELADO' and turno.estado != 'ATENDIDO' %}
+          <button type="button" onclick="document.getElementById('modal-cancelar-turno').showModal()" class="px-space-md h-12 rounded-xl bg-error-container text-on-error-container font-label-md text-label-md hover:opacity-90 transition-opacity">
+            Cancelar Cita
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<dialog id="modal-cancelar-turno" aria-labelledby="titulo-modal-cancelar">
+  <div class="p-6 bg-surface-container-lowest space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-surface-container-high">
+      <h2 id="titulo-modal-cancelar" class="font-headline-sm text-headline-sm text-on-surface">Cancelar Turno #{{ turno.codigo }}</h2>
+      <button type="button" onclick="document.getElementById('modal-cancelar-turno').close()" class="p-1 text-on-surface-variant">✕</button>
+    </div>
+    <form action="{% url 'cancelar_turno_paciente' turno.codigo %}" method="POST" class="space-y-4">
+      {% csrf_token %}
+      <p class="font-body-sm text-body-sm text-on-surface-variant">
+        Ingresá el DNI del paciente titular para confirmar la cancelación y liberar el horario:
+      </p>
+      <div>
+        <label for="dni-confirm" class="font-label-md text-label-md text-on-surface block mb-1">DNI del Paciente *</label>
+        <input type="text" id="dni-confirm" name="dni" inputmode="numeric" required class="w-full h-11 px-3 rounded-xl border border-outline-variant">
+      </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="document.getElementById('modal-cancelar-turno').close()" class="px-4 py-2 rounded-xl bg-surface-container-high text-on-surface font-label-md">Volver</button>
+        <button type="submit" class="px-5 py-2 rounded-xl bg-error text-on-error font-label-md font-bold">Confirmar Cancelación</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+{% endblock %}

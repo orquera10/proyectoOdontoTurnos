@@ -1,0 +1,598 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ config.odontologa_titular }} - Turnos Online{% endblock %}
+
+{% block content %}
+<!-- Header Minimalista y Claro -->
+<header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-20 max-w-[1200px] mx-auto px-gutter flex items-center justify-between gap-space-md">
+    <a href="#" class="flex items-center gap-space-sm sm:gap-space-md">
+      <img alt="Logo {{ config.odontologa_titular }}" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXl-oFsoliGEF8qW8V9NJ8D_hkfjqDlwVVmIIfm2Z4TZb_fgdPxcAxYhO78hDXntks_AqAYawHIBo8kmAuP4s9EfEA1-jvwg7fRbS_iB-LjOfmmdqClY_pgY_aWynYFeVH51gH21TAp3PJZ9HhKJPo8z5AEaYNTXuT_YV_4z6ChK71bpVcEkg6DkTOWAo43OGHDCz76OXtY-o8ALVx2QwJj7tifHdJqbFogl40qXf0zs0SfzQhLkRw2vBtVbGbLKXqxu0">
+      <div class="flex flex-col">
+        <span class="font-headline-sm text-base sm:text-headline-sm text-primary tracking-tight leading-tight">{{ config.odontologa_titular }}</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Consultorio en {{ config.direccion }}</span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-space-sm sm:gap-space-md">
+      <a class="hidden sm:inline-flex items-center gap-1.5 px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all" href="#mis-turnos">
+        <span class="material-symbols-outlined text-base text-primary">search</span>
+        Ya tengo turno
+      </a>
+      <a class="inline-flex items-center justify-center h-11 px-space-md sm:px-space-lg rounded-xl bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary-container transition-all shadow-sm" href="#sacar-turno">
+        Sacar Turno
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="w-full pt-20 bg-background flex-1">
+  <!-- HERO SIMPLE, CÁLIDO Y DIRECTO -->
+  <section class="w-full pt-space-lg pb-space-md px-gutter max-w-[1200px] mx-auto">
+    <div class="bg-surface-container-lowest rounded-2xl p-space-lg sm:p-space-xl shadow-sm border border-surface-container-high grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+      <div class="lg:col-span-8 flex flex-col gap-space-sm">
+        <div class="inline-flex items-center gap-space-xs self-start px-space-md py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span>Turnos Online sin registrarse · Confirmación inmediata</span>
+        </div>
+
+        <h1 class="font-display-lg text-headline-xl sm:text-display-lg-mobile text-on-surface tracking-tight leading-tight">
+          Sacá tu turno con la <span class="text-primary">{{ config.odontologa_titular }}</span> de forma rápida y sencilla.
+        </h1>
+
+        <p class="font-body-md sm:font-body-lg text-on-surface-variant max-w-2xl">
+          Elegí el día y el horario que te quede más cómodo acá abajo. No necesitás crear usuario ni contraseña.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-1 text-body-sm text-on-surface-variant">
+          <span class="inline-flex items-center gap-1.5 font-semibold text-on-surface">
+            <span class="material-symbols-outlined text-primary text-lg">location_on</span>
+            {{ config.direccion }} ({{ config.localidad }})
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-lg">verified</span>
+            Obras Sociales y Particular
+          </span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 flex items-center gap-space-md bg-surface-container-low p-space-md rounded-xl">
+        <img class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shrink-0 shadow-xs" alt="{{ config.odontologa_titular }}" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDmnfcfdQjCF4tfsml4dILyycNgdLc1vTPRQAoP7wHwUVd7nVQVVWma97c379zAsWACchG45_THMK-WaSHL7zsBACWDNxm6I9v5GPAEVN1gHxbnx-fN3ucMBVk8safmRc3t-vbWpa7QwtxuwNEOxIL1-CptDSeuwnn4vZOAmyNXZC9tPBV8ihr_NTfeeIM9UCAb1qEsUbmiJmCCs1fWMz2WlcCSKI4xnvZgAcrtDXKIMxgZ7AuwzMQaQ">
+        <div class="flex flex-col gap-1">
+          <span class="font-label-sm text-label-sm text-primary uppercase">Atención Personalizada</span>
+          <p class="font-headline-sm text-base text-on-surface leading-snug">{{ config.odontologa_titular }}</p>
+          <p class="font-label-sm text-label-sm text-on-surface-variant">{{ config.matricula }}</p>
+          <a href="#mis-turnos" class="text-xs font-bold text-primary hover:underline mt-1 inline-flex items-center gap-1">
+            ¿Ya sacaste turno? Consultalo acá →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       SECCIÓN PRINCIPAL: FORMULARIO MINIMALISTA ANTI-ERRORES (TODO EN 1 VISTA)
+       ======================================================================= -->
+  <section id="sacar-turno" class="w-full max-w-[1200px] mx-auto px-gutter pb-space-xl">
+    <form action="{% url 'reservar_turno_cliente' %}" method="POST" id="form-turno-minimalista" class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+      {% csrf_token %}
+      <input type="hidden" name="tratamiento_id" id="hidden-tratamiento-id" value="{{ primer_tratamiento.id }}">
+      <input type="hidden" name="fecha" id="hidden-fecha-iso" value="{{ fecha_sugerida }}">
+      <input type="hidden" name="hora" id="hidden-hora-str" value="">
+
+      <!-- COLUMNA IZQUIERDA (7 cols): ELEGIR MOTIVO, DÍA Y HORA -->
+      <div class="lg:col-span-7 flex flex-col gap-space-lg">
+
+        <!-- PASO 1: ¿QUÉ NECESITÁS? -->
+        <div id="bloque-paso-1" class="scroll-mt-24 bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-space-md transition-all duration-300">
+          <div class="flex items-center gap-space-sm">
+            <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-sm shrink-0">1</span>
+            <div>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">¿Por qué motivo querés pedir turno?</h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Tocá una opción (si tenés dudas, dejá "Consulta General").</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="radiogroup" aria-label="Motivo de consulta">
+            {% for trat in tratamientos %}
+            <button type="button"
+                    data-id="{{ trat.id }}"
+                    data-nombre="{{ trat.nombre }}"
+                    onclick="elegirTratamiento(this, '{{ trat.id }}', '{{ trat.nombre|escapejs }}')"
+                    class="tratamiento-pill p-3.5 rounded-xl text-left transition-all flex items-center justify-between gap-3 border-2 {% if forloop.first %}bg-secondary-container/40 border-primary text-on-surface shadow-xs{% else %}bg-surface-container-low/70 border-transparent hover:bg-surface-container-high text-on-surface{% endif %}">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="material-symbols-outlined text-xl {% if trat.icono == 'emergency' %}text-error{% else %}text-primary{% endif %} shrink-0">{{ trat.icono }}</span>
+                <div class="min-w-0">
+                  <span class="font-label-lg text-label-lg block leading-snug">{{ trat.nombre }}</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">{{ trat.duracion_minutos }} min</span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined check-icon text-xl text-primary shrink-0 {% if not forloop.first %}opacity-0{% endif %}">check_circle</span>
+            </button>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- PASO 2: ¿QUÉ DÍA PREFERÍS? -->
+        <div id="bloque-paso-2" class="scroll-mt-24 bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-space-md transition-all duration-300">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div class="flex items-center gap-space-sm">
+              <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-sm shrink-0">2</span>
+              <div>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">¿Qué día te queda cómodo?</h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Tocá uno de los próximos días de atención:</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjetas Grandes de Días (Imposible confundirse de día) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {% for d in dias_amigables %}
+            <button type="button"
+                    data-fecha-iso="{{ d.fecha_iso }}"
+                    data-fecha-larga="{{ d.fecha_larga }}"
+                    onclick="elegirDia(this, '{{ d.fecha_iso }}', '{{ d.fecha_larga|escapejs }}')"
+                    class="dia-card p-3 rounded-xl border-2 text-center transition-all flex flex-col items-center justify-center gap-0.5 {% if d.es_seleccionado %}bg-primary text-on-primary border-primary shadow-sm{% else %}bg-surface-container-low/80 hover:bg-secondary-container/40 text-on-surface border-transparent{% endif %}">
+              <span class="font-label-sm text-[11px] uppercase tracking-wider {% if d.es_seleccionado %}text-primary-fixed{% else %}text-primary{% endif %}">{{ d.etiqueta_arriba }}</span>
+              <span class="font-headline-md text-2xl font-bold leading-tight">{{ d.dia_numero }} {{ d.mes_corto }}</span>
+              <span class="font-label-sm text-xs {% if d.es_seleccionado %}text-on-primary/90{% else %}text-on-surface-variant{% endif %}">{{ d.nombre_dia }}</span>
+            </button>
+            {% endfor %}
+          </div>
+
+          <!-- Opción simple por si busca una fecha más adelante -->
+          <div class="pt-2 border-t border-surface-container-high flex flex-wrap items-center justify-between gap-2 text-body-sm">
+            <label for="input-otra-fecha" class="text-on-surface-variant font-label-md">¿Querés buscar otra fecha más adelante?</label>
+            <input type="date" id="input-otra-fecha" value="{{ fecha_sugerida }}" min="{{ fecha_minima }}" class="h-10 px-3 rounded-xl bg-surface-container-low border border-outline-variant text-on-surface font-label-md cursor-pointer">
+          </div>
+        </div>
+
+        <!-- PASO 3: ¿A QUÉ HORA VENÍS? -->
+        <div id="bloque-paso-3" class="scroll-mt-24 bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-space-md transition-all duration-300">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div class="flex items-center gap-space-sm">
+              <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-sm shrink-0">3</span>
+              <div>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Elegí un horario disponible</h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant" id="subtitulo-dia-horarios">Mostrando solo los horarios libres para el <strong class="text-on-surface">{{ fecha_sugerida_larga }}</strong>:</p>
+              </div>
+            </div>
+            <span id="badge-cupos-libres" class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Cargando...</span>
+          </div>
+
+          <div id="contenedor-horarios-amigables" class="space-y-4" aria-live="polite">
+            <div class="p-4 rounded-xl bg-surface-container-low text-on-surface-variant text-body-sm text-center">
+              Buscando horarios libres...
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUMNA DERECHA (5 cols): PASO 4 (TUS DATOS + RESUMEN GRANDE + BOTÓN CONFIRMAR) -->
+      <div class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-lg">
+        <div id="bloque-paso-4" class="scroll-mt-24 bg-surface-container-lowest p-space-lg sm:p-space-xl rounded-2xl shadow-md border-2 border-primary/20 flex flex-col gap-space-md transition-all duration-300">
+          <div class="flex items-center gap-space-sm">
+            <span class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-sm shrink-0">4</span>
+            <div>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Tus datos para confirmar</h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Completá estos datos y hacé clic en el botón verde.</p>
+            </div>
+          </div>
+
+          <!-- RESUMEN VISUAL ANTI-ERRORES (Siempre a la vista) -->
+          <div class="p-space-md rounded-xl bg-secondary-container/45 border border-secondary-container space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-primary">
+              <span>Resumen de tu Turno</span>
+              <span>Dra. Mariana S. de Bustamante</span>
+            </div>
+            <div class="flex items-center gap-2.5 text-on-surface">
+              <span class="material-symbols-outlined text-primary text-2xl">event_available</span>
+              <div>
+                <p class="font-headline-sm text-base sm:text-lg font-bold leading-tight" id="resumen-dia-hora">
+                  {{ fecha_sugerida_larga }}
+                </p>
+                <p class="font-label-md text-label-md text-on-surface-variant mt-0.5" id="resumen-tratamiento">
+                  {{ primer_tratamiento.nombre }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Campos Minimalistas y Claros -->
+          <div class="space-y-4">
+            <div>
+              <label for="input-name" class="font-label-lg text-label-lg text-on-surface block mb-1">
+                Tu Nombre y Apellido <span class="text-error">*</span>
+              </label>
+              <input type="text" id="input-name" name="nombre_completo" autocomplete="name" required
+                     placeholder="Ej: María Laura Gómez"
+                     class="w-full h-12 px-4 rounded-xl bg-surface-container-low border-2 border-outline-variant/60 text-on-surface font-body-md focus:bg-white focus:border-primary focus:outline-none">
+            </div>
+
+            <div>
+              <label for="input-dni" class="font-label-lg text-label-lg text-on-surface block mb-1">
+                Tu Número de DNI <span class="text-error">*</span>
+              </label>
+              <input type="text" id="input-dni" name="dni" inputmode="numeric" autocorrect="off" autocapitalize="off" spellcheck="false" required
+                     placeholder="Solo números, ej: 38492104"
+                     class="w-full h-12 px-4 rounded-xl bg-surface-container-low border-2 border-outline-variant/60 text-on-surface font-body-md focus:bg-white focus:border-primary focus:outline-none">
+            </div>
+
+            <div>
+              <label for="input-phone" class="font-label-lg text-label-lg text-on-surface block mb-1">
+                Tu Celular / WhatsApp <span class="text-error">*</span>
+              </label>
+              <input type="tel" id="input-phone" name="telefono" autocomplete="tel" inputmode="tel" required
+                     placeholder="Ej: 11 5823-9941"
+                     class="w-full h-12 px-4 rounded-xl bg-surface-container-low border-2 border-outline-variant/60 text-on-surface font-body-md focus:bg-white focus:border-primary focus:outline-none">
+            </div>
+
+            <div>
+              <label for="input-insurance" class="font-label-lg text-label-lg text-on-surface block mb-1">
+                Obra Social / Prepaga o Particular
+              </label>
+              <select id="input-insurance" name="obra_social"
+                      class="w-full h-12 px-4 rounded-xl bg-surface-container-low border-2 border-outline-variant/60 text-on-surface font-body-md focus:bg-white focus:border-primary focus:outline-none">
+                {% for valor, etiqueta in obras_sociales %}
+                <option value="{{ valor }}">{{ etiqueta }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Nota opcional plegable para no recargar la pantalla -->
+            <details class="group bg-surface-container-low/60 rounded-xl px-3.5 py-2.5 border border-outline-variant/40">
+              <summary class="font-label-md text-label-md text-primary cursor-pointer list-none flex items-center justify-between">
+                <span>+ Agregar comentario o número de afiliado (Opcional)</span>
+                <span class="material-symbols-outlined text-base group-open:rotate-180 transition-transform">expand_more</span>
+              </summary>
+              <div class="mt-3 space-y-3 pt-2 border-t border-outline-variant/30">
+                <div>
+                  <label for="input-afiliado" class="font-label-sm text-label-sm text-on-surface-variant block mb-1">N° de Afiliado / Credencial (opcional)</label>
+                  <input type="text" id="input-afiliado" name="numero_afiliado" class="w-full h-10 px-3 rounded-lg bg-white border border-outline-variant text-body-sm">
+                </div>
+                <div>
+                  <label for="input-notes" class="font-label-sm text-label-sm text-on-surface-variant block mb-1">Comentario para la doctora (opcional)</label>
+                  <input type="text" id="input-notes" name="motivo_notas" placeholder="Ej: Tengo dolor en una muela / Es mi primera vez" class="w-full h-10 px-3 rounded-lg bg-white border border-outline-variant text-body-sm">
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <p id="alerta-falta-horario" class="hidden p-3 rounded-xl bg-error-container text-on-error-container font-label-md text-label-md text-center" role="alert">
+            Por favor elegí un horario disponible en el Paso 3 antes de confirmar.
+          </p>
+
+          <button type="submit" id="btn-confirmar-turno" class="w-full h-14 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-lg shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-2xl">check_circle</span>
+            <span>Confirmar Mi Turno</span>
+          </button>
+
+          <p class="font-label-sm text-label-sm text-center text-on-surface-variant">
+            📍 Te esperamos en <strong>{{ config.direccion }}</strong> ({{ config.localidad }}).
+          </p>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- =====================================================================
+         SECCIÓN INFERIOR SIMPLE: CONSULTAR O CANCELAR UN TURNO YA AGENDADO
+         ===================================================================== -->
+    <div id="mis-turnos" class="mt-space-xl bg-surface-container-lowest p-space-lg sm:p-space-xl rounded-2xl shadow-sm border border-surface-container-high">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-space-md items-center">
+        <div class="md:col-span-6 space-y-1">
+          <div class="inline-flex items-center gap-1.5 text-primary font-label-md text-label-md">
+            <span class="material-symbols-outlined text-lg">event_note</span>
+            <span>Consulta rápida</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md text-on-surface">¿Ya sacaste turno y querés revisarlo?</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Escribí tu número de DNI para recordar qué día y a qué hora tenés turno, o para cancelarlo si no podés venir.
+          </p>
+        </div>
+
+        <div class="md:col-span-6">
+          <form id="form-consultar-turno" class="flex flex-col sm:flex-row gap-2.5">
+            <label for="input-consulta-q" class="visually-hidden">Tu número de DNI</label>
+            <input type="text" id="input-consulta-q" name="q" inputmode="numeric" autocorrect="off" autocapitalize="off" spellcheck="false" required
+                   placeholder="Escribí tu DNI (ej: 38492104)"
+                   class="flex-1 h-12 px-4 rounded-xl bg-surface-container-low border-2 border-outline-variant/60 text-on-surface font-body-md focus:bg-white focus:border-primary focus:outline-none">
+            <button type="submit" class="h-12 px-6 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed font-label-lg text-label-lg transition-colors flex items-center justify-center gap-1.5 shrink-0">
+              <span class="material-symbols-outlined text-lg">search</span>
+              Ver Mi Turno
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div id="resultado-consulta-turno" class="hidden mt-4 pt-4 border-t border-surface-container-high flex-col gap-2.5" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer Minimalista -->
+<footer class="w-full bg-surface-container-low border-t border-surface-container-high">
+  <div class="max-w-[1200px] mx-auto px-gutter py-space-lg flex flex-col sm:flex-row items-center justify-between gap-4 text-body-sm text-on-surface-variant">
+    <div>
+      <strong class="text-on-surface">{{ config.odontologa_titular }}</strong> · {{ config.direccion }} ({{ config.localidad }}) · Tel: {{ config.telefono_visible }}
+    </div>
+    <div class="flex items-center gap-4 font-label-md">
+      <a href="#sacar-turno" class="hover:text-primary">Sacar Turno</a>
+      <span>·</span>
+      <a href="#mis-turnos" class="hover:text-primary">Consultar Mi Turno</a>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let currentFechaIso = '{{ fecha_sugerida }}';
+  let currentFechaLarga = '{{ fecha_sugerida_larga|escapejs }}';
+  let currentHora = '';
+  let currentTratamientoNombre = '{{ primer_tratamiento.nombre|escapejs }}';
+
+  function actualizarCajaResumen() {
+    const elDiaHora = document.getElementById('resumen-dia-hora');
+    const elTrat = document.getElementById('resumen-tratamiento');
+    if (elDiaHora) {
+      elDiaHora.textContent = currentHora
+        ? `${currentFechaLarga} a las ${currentHora} hs`
+        : `${currentFechaLarga} (Elegí un horario)`;
+    }
+    if (elTrat) {
+      elTrat.textContent = `Motivo: ${currentTratamientoNombre}`;
+    }
+  }
+
+  function irAlPasoSiguiente(idPaso, enfocarInput = false) {
+    const pasoEl = document.getElementById(idPaso);
+    if (!pasoEl) return;
+
+    setTimeout(() => {
+      pasoEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Destello suave para guiar la vista del paciente al siguiente paso
+      pasoEl.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+      setTimeout(() => {
+        pasoEl.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+      }, 950);
+
+      if (enfocarInput) {
+        setTimeout(() => {
+          const inputNombre = document.getElementById('input-name');
+          if (inputNombre && !inputNombre.value) {
+            inputNombre.focus({ preventScroll: true });
+          }
+        }, 550);
+      }
+    }, 120);
+  }
+
+  function elegirTratamiento(btnEl, id, nombre) {
+    document.getElementById('hidden-tratamiento-id').value = id;
+    currentTratamientoNombre = nombre;
+
+    document.querySelectorAll('.tratamiento-pill').forEach(btn => {
+      btn.className = 'tratamiento-pill p-3.5 rounded-xl text-left transition-all flex items-center justify-between gap-3 border-2 bg-surface-container-low/70 border-transparent hover:bg-surface-container-high text-on-surface';
+      const icon = btn.querySelector('.check-icon');
+      if (icon) icon.classList.add('opacity-0');
+    });
+
+    if (btnEl) {
+      btnEl.className = 'tratamiento-pill p-3.5 rounded-xl text-left transition-all flex items-center justify-between gap-3 border-2 bg-secondary-container/40 border-primary text-on-surface shadow-xs';
+      const icon = btnEl.querySelector('.check-icon');
+      if (icon) icon.classList.remove('opacity-0');
+    }
+    actualizarCajaResumen();
+    irAlPasoSiguiente('bloque-paso-2');
+  }
+
+  function elegirDia(btnEl, fechaIso, fechaLarga) {
+    currentFechaIso = fechaIso;
+    currentFechaLarga = fechaLarga || fechaIso;
+    document.getElementById('hidden-fecha-iso').value = fechaIso;
+    const inputOtraFecha = document.getElementById('input-otra-fecha');
+    if (inputOtraFecha) inputOtraFecha.value = fechaIso;
+
+    document.querySelectorAll('.dia-card').forEach(card => {
+      card.className = 'dia-card p-3 rounded-xl border-2 text-center transition-all flex flex-col items-center justify-center gap-0.5 bg-surface-container-low/80 hover:bg-secondary-container/40 text-on-surface border-transparent';
+    });
+
+    if (btnEl) {
+      btnEl.className = 'dia-card p-3 rounded-xl border-2 text-center transition-all flex flex-col items-center justify-center gap-0.5 bg-primary text-on-primary border-primary shadow-sm';
+    }
+
+    cargarHorariosAmigables(fechaIso);
+    irAlPasoSiguiente('bloque-paso-3');
+  }
+
+  function elegirHorario(btnEl, horaStr, autoScroll = true) {
+    currentHora = horaStr;
+    document.getElementById('hidden-hora-str').value = horaStr;
+    document.getElementById('alerta-falta-horario')?.classList.add('hidden');
+
+    document.querySelectorAll('.horario-btn-amigable').forEach(b => {
+      b.className = 'horario-btn-amigable py-3 px-3 rounded-xl border-2 border-outline-variant/50 bg-surface-container-low/70 hover:bg-secondary-container/50 hover:border-primary text-on-surface font-headline-sm text-base transition-all flex items-center justify-center gap-1.5';
+      const tag = b.querySelector('.tag-elegido');
+      if (tag) tag.remove();
+    });
+
+    if (btnEl) {
+      btnEl.className = 'horario-btn-amigable py-3 px-3 rounded-xl border-2 border-primary bg-primary text-on-primary font-headline-sm text-base shadow-sm transition-all flex items-center justify-center gap-1.5';
+      const checkSpan = document.createElement('span');
+      checkSpan.className = 'tag-elegido material-symbols-outlined text-lg';
+      checkSpan.textContent = 'check_circle';
+      btnEl.prepend(checkSpan);
+    }
+
+    actualizarCajaResumen();
+    if (autoScroll) {
+      irAlPasoSiguiente('bloque-paso-4', true);
+    }
+  }
+
+  async function cargarHorariosAmigables(fechaIso) {
+    const contenedor = document.getElementById('contenedor-horarios-amigables');
+    const subtitulo = document.getElementById('subtitulo-dia-horarios');
+    const badgeCupos = document.getElementById('badge-cupos-libres');
+    if (!contenedor) return;
+
+    try {
+      const resp = await fetch(`/api/horarios/?fecha=${encodeURIComponent(fechaIso)}`);
+      const data = await resp.json();
+
+      if (data.fecha_larga) {
+        currentFechaLarga = data.fecha_larga;
+      }
+      if (subtitulo) {
+        subtitulo.innerHTML = `Horarios disponibles para el <strong class="text-on-surface">${currentFechaLarga}</strong>:`;
+      }
+
+      if (data.es_domingo || data.bloqueado_completo || data.libres_count === 0) {
+        if (badgeCupos) badgeCupos.textContent = 'Sin cupos';
+        currentHora = '';
+        document.getElementById('hidden-hora-str').value = '';
+        actualizarCajaResumen();
+        contenedor.innerHTML = `
+          <div class="p-4 rounded-xl bg-error-container/70 text-on-error-container font-label-md text-center">
+            ${data.motivo_bloqueo || 'No quedan horarios libres en este día. Por favor tocá otro día arriba en el Paso 2.'}
+          </div>
+        `;
+        return;
+      }
+
+      if (badgeCupos) {
+        badgeCupos.textContent = `${data.libres_count} horarios libres`;
+      }
+
+      contenedor.innerHTML = '';
+      let primerHorarioBtn = null;
+
+      [
+        { clave: 'Mañana', icono: 'wb_sunny', titulo: 'Por la Mañana' },
+        { clave: 'Tarde', icono: 'wb_twilight', titulo: 'Por la Tarde' }
+      ].forEach(franja => {
+        // Mostrar únicamente los horarios disponibles para que el cliente nunca se confunda con horarios ocupados
+        const libresFranja = data.slots.filter(s => s.franja === franja.clave && s.disponible);
+        if (libresFranja.length === 0) return;
+
+        const bloque = document.createElement('div');
+        bloque.className = 'space-y-2';
+
+        const header = document.createElement('div');
+        header.className = 'flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant';
+        header.innerHTML = `<span class="material-symbols-outlined text-base text-primary">${franja.icono}</span><span>${franja.titulo}</span>`;
+        bloque.appendChild(header);
+
+        const grilla = document.createElement('div');
+        grilla.className = 'grid grid-cols-3 sm:grid-cols-4 gap-2.5';
+
+        libresFranja.forEach(s => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'horario-btn-amigable py-3 px-3 rounded-xl border-2 border-outline-variant/50 bg-surface-container-low/70 hover:bg-secondary-container/50 hover:border-primary text-on-surface font-headline-sm text-base transition-all flex items-center justify-center gap-1.5';
+          btn.innerHTML = `<span>${s.hora} hs</span>`;
+          btn.addEventListener('click', () => elegirHorario(btn, s.hora, true));
+          if (!primerHorarioBtn) {
+            primerHorarioBtn = { btn, hora: s.hora };
+          }
+          grilla.appendChild(btn);
+        });
+
+        bloque.appendChild(grilla);
+        contenedor.appendChild(bloque);
+      });
+
+      // Seleccionar automáticamente el primer horario libre sin desplazar la pantalla al cargar
+      if (primerHorarioBtn) {
+        elegirHorario(primerHorarioBtn.btn, primerHorarioBtn.hora, false);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarHorariosAmigables(currentFechaIso);
+
+    const inputOtraFecha = document.getElementById('input-otra-fecha');
+    if (inputOtraFecha) {
+      inputOtraFecha.addEventListener('change', (e) => {
+        if (e.target.value) {
+          elegirDia(null, e.target.value, e.target.value);
+        }
+      });
+    }
+
+    // Limpiar puntos o espacios automáticamente cuando el cliente escribe su DNI
+    const inputDni = document.getElementById('input-dni');
+    if (inputDni) {
+      inputDni.addEventListener('input', () => {
+        inputDni.value = inputDni.value.replace(/\D/g, '');
+      });
+    }
+
+    const form = document.getElementById('form-turno-minimalista');
+    const btnConfirmar = document.getElementById('btn-confirmar-turno');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        if (!document.getElementById('hidden-hora-str').value) {
+          e.preventDefault();
+          const alerta = document.getElementById('alerta-falta-horario');
+          if (alerta) alerta.classList.remove('hidden');
+          document.getElementById('bloque-paso-3')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        if (form.checkValidity() && btnConfirmar) {
+          btnConfirmar.disabled = true;
+          btnConfirmar.innerHTML = '<span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span><span>Guardando tu turno...</span>';
+        }
+      });
+    }
+
+    // Buscador de "Ya tengo turno" por DNI
+    const formConsulta = document.getElementById('form-consultar-turno');
+    const resultadoConsulta = document.getElementById('resultado-consulta-turno');
+    if (formConsulta && resultadoConsulta) {
+      formConsulta.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const q = document.getElementById('input-consulta-q').value.trim();
+        if (!q) return;
+
+        resultadoConsulta.classList.remove('hidden');
+        resultadoConsulta.classList.add('flex');
+        resultadoConsulta.innerHTML = '<p class="text-body-sm text-on-surface-variant">Buscando tu turno...</p>';
+
+        try {
+          const resp = await fetch(`/api/consultar-turno/?q=${encodeURIComponent(q)}`);
+          const data = await resp.json();
+          resultadoConsulta.innerHTML = '';
+
+          if (!data.encontrado) {
+            resultadoConsulta.innerHTML = `<div class="p-4 rounded-xl bg-error-container text-on-error-container font-label-md">${data.mensaje}</div>`;
+            return;
+          }
+
+          data.turnos.forEach((t) => {
+            const item = document.createElement('div');
+            item.className = 'p-4 rounded-xl bg-surface-container-low flex flex-wrap items-center justify-between gap-3 border border-outline-variant/40';
+            item.innerHTML = `
+              <div>
+                <p class="font-headline-sm text-base text-on-surface">📅 ${t.fecha} a las ${t.hora} hs — ${t.tratamiento}</p>
+                <p class="font-body-sm text-on-surface-variant">Paciente: <strong>${t.paciente}</strong> · Código: <strong class="text-primary">${t.codigo}</strong> · Estado: ${t.estado_display}</p>
+              </div>
+              <a href="${t.url_comprobante}" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-label-lg hover:bg-primary-container transition-colors">
+                Ver o Cancelar Turno →
+              </a>
+            `;
+            resultadoConsulta.appendChild(item);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,180 @@
+/* ==========================================================================
+   Estilos Profesionales — Consultorio Odontológico Dra. Mariana Sánchez de Bustamante
+   Modern Web Guidance Compliant (Responsive PC & Mobile)
+   ========================================================================== */
+
+:root {
+  --brand-primary: #0f766e;
+  --brand-primary-dark: #115e59;
+  --brand-primary-light: #ccfbf1;
+  --brand-accent: #0284c7;
+  --surface-bg: #f8fafc;
+  --surface-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-subtle: #cbd5e1;
+  --focus-ring: #0b57d0;
+  --danger: #dc2626;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--surface-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Modern Web Guidance: prevent-page-scroll-under-modal-dialog --- */
+dialog:modal {
+  overscroll-behavior: contain;
+  border: none;
+  border-radius: 1.25rem;
+  padding: 0;
+  max-width: min(94vw, 42rem);
+  width: 100%;
+  max-height: 90dvh;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+  background: #ffffff;
+  color: var(--text-main);
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* --- Modern Web Guidance: forms (Accessibility, Tap Targets & Validation) --- */
+.visually-hidden {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
+
+.form-group {
+  margin-block-end: 1.25rem;
+}
+
+/* Gestalt Proximity Rule: label closer to its own input than adjacent fields */
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.925rem;
+  color: #1e293b;
+  padding: 6px 0;
+  margin: -6px 0 0.35rem 0;
+}
+
+.form-control {
+  width: 100%;
+  font-size: 1rem; /* Prevents iOS auto-zoom on focus */
+  line-height: 1.5;
+  padding: 0.7rem 0.95rem;
+  min-height: 48px;
+  box-sizing: border-box;
+  border: 1.5px solid #94a3b8;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (pointer: coarse) {
+  .form-control,
+  .btn-touch,
+  .slot-pill {
+    min-height: 52px;
+  }
+}
+
+.form-control:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.form-control:invalid:user-invalid {
+  border-color: var(--danger);
+  background-color: #fef2f2;
+}
+
+/* Custom select arrow with appearance: none */
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 24 24' stroke='%23334155' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 1.15rem;
+  padding-inline-end: 2.5rem;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--brand-primary);
+}
+
+/* Time slot buttons */
+.slot-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.slot-pill:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  background: #f0fdfa;
+  color: var(--brand-primary-dark);
+}
+
+.slot-pill.selected {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.28);
+}
+
+.slot-pill:disabled {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Print styles for Comprobante */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+}
